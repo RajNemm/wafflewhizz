@@ -142,6 +142,76 @@ nav {
 .mobile-nav a { text-decoration:none; font-size:16px; font-weight:500; color:var(--text2); }
 .mobile-nav a:hover { color:var(--amber); }
 
+/* ── WAFFLE BACKGROUND IMAGES ── */
+.waffle-bg-img {
+  position:absolute;
+  pointer-events:none;
+  user-select:none;
+  border-radius:20px;
+  object-fit:cover;
+  opacity:0.07;
+  filter:saturate(0.6);
+  transition:opacity 0.3s;
+  z-index:0;
+}
+[data-theme="dark"] .waffle-bg-img { opacity:0.05; filter:saturate(0.4) brightness(0.8); }
+
+/* hero bg images */
+.hero-bg-img-1 {
+  width:clamp(220px,28vw,380px);
+  height:clamp(220px,28vw,380px);
+  top:8%; right:-60px;
+  transform:rotate(12deg);
+}
+.hero-bg-img-2 {
+  width:clamp(140px,16vw,220px);
+  height:clamp(140px,16vw,220px);
+  bottom:10%; left:-40px;
+  transform:rotate(-8deg);
+}
+
+/* about bg image */
+.about { position:relative; overflow:hidden; }
+.about-bg-img {
+  width:clamp(200px,24vw,340px);
+  height:clamp(200px,24vw,340px);
+  bottom:-40px; right:-50px;
+  transform:rotate(6deg);
+}
+
+/* menu bg images */
+#menu { position:relative; overflow:hidden; }
+.menu-bg-img-1 {
+  width:clamp(160px,18vw,260px);
+  height:clamp(160px,18vw,260px);
+  top:-30px; right:-40px;
+  transform:rotate(-10deg);
+}
+.menu-bg-img-2 {
+  width:clamp(130px,14vw,200px);
+  height:clamp(130px,14vw,200px);
+  bottom:-20px; left:-30px;
+  transform:rotate(14deg);
+}
+
+/* franchise bg image */
+#franchise { position:relative; overflow:hidden; }
+.franchise-bg-img {
+  width:clamp(180px,20vw,300px);
+  height:clamp(180px,20vw,300px);
+  top:40px; right:-40px;
+  transform:rotate(-7deg);
+}
+
+/* contact bg image */
+.contact { position:relative; overflow:hidden; }
+.contact-bg-img {
+  width:clamp(160px,18vw,260px);
+  height:clamp(160px,18vw,260px);
+  bottom:-30px; left:-40px;
+  transform:rotate(10deg);
+}
+
 /* ── HERO ── */
 .hero {
   min-height:100vh;
@@ -167,6 +237,7 @@ nav {
   max-width:1100px; width:100%; margin:0 auto;
   display:grid; grid-template-columns:1fr 1fr;
   gap:80px; align-items:center;
+  position:relative; z-index:1;
 }
 .hero-pill {
   display:inline-flex; align-items:center; gap:8px;
@@ -253,7 +324,7 @@ nav {
 
 /* ── SECTION BASE ── */
 section { padding:100px 6%; }
-.container { max-width:1100px; margin:0 auto; }
+.container { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
 .section-label {
   font-size:11.5px; font-weight:600;
   color:var(--amber); letter-spacing:1.5px;
@@ -346,6 +417,22 @@ section { padding:100px 6%; }
   font-size:11px; font-weight:600;
   color:var(--amber); letter-spacing:0.5px;
   text-transform:uppercase;
+}
+.menu-variants {
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin-top:14px;
+}
+.menu-variant {
+  font-size:11px; font-weight:600;
+  padding:4px 10px; border-radius:100px;
+  background:var(--amber-light);
+  color:var(--amber);
+  border:1px solid rgba(232,146,10,0.2);
+  letter-spacing:0.3px;
+}
+[data-theme="dark"] .menu-variant {
+  background:rgba(232,146,10,0.12);
+  color:#E8920A;
 }
 
 /* ── GALLERY ── */
@@ -453,7 +540,86 @@ section { padding:100px 6%; }
 .snake-wrap { width:100%; overflow-x:auto; }
 .snake-wrap svg { display:block; width:100%; }
 
-/* ── CONTACT ── */
+/* ── FRANCHISE PACKAGE ── */
+.franchise-intro {
+  background:var(--text);
+  border-radius:24px;
+  padding:52px 56px;
+  margin-bottom:56px;
+  display:flex; flex-direction:column; gap:20px;
+  position:relative; overflow:hidden;
+}
+.franchise-intro::before {
+  content:'';
+  position:absolute; right:-80px; top:-80px;
+  width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,146,10,0.2), transparent 70%);
+  pointer-events:none;
+}
+.franchise-intro h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,3.5vw,44px);
+  font-weight:700; color:#F5F0E8;
+  letter-spacing:-1px; line-height:1.1;
+}
+.franchise-intro h2 em { font-style:italic; color:var(--amber); }
+.franchise-intro p { font-size:15px; color:#8A8278; line-height:1.75; font-weight:300; max-width:620px; }
+.franchise-intro-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+.franchise-packages {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:20px; margin-bottom:56px;
+}
+.fpack {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:32px 28px;
+  transition:border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  position:relative; overflow:hidden;
+}
+.fpack::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--amber);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.3s;
+}
+.fpack:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); border-color:rgba(232,146,10,0.3); }
+.fpack:hover::before { transform:scaleX(1); }
+.fpack-header {
+  display:flex; align-items:center; gap:14px;
+  margin-bottom:20px;
+}
+.fpack-icon {
+  width:48px; height:48px; border-radius:14px;
+  background:var(--amber-light);
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.fpack-header h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px; font-weight:700; line-height:1.2;
+}
+.fpack-header span {
+  display:block; font-size:11.5px; color:var(--amber);
+  font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin-top:2px;
+}
+.fpack-items { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.fpack-items li {
+  display:flex; align-items:flex-start; gap:10px;
+  font-size:13.5px; color:var(--text2); line-height:1.55; font-weight:400;
+}
+.fpack-items li::before {
+  content:'';
+  width:6px; height:6px; border-radius:50%;
+  background:var(--amber); flex-shrink:0;
+  margin-top:6px;
+}
+@media(max-width:720px){
+  .franchise-packages { grid-template-columns:1fr; }
+  .franchise-intro { padding:32px 28px; }
+}
 .contact { background:var(--bg2); }
 .contact-grid {
   display:grid; grid-template-columns:1fr 1fr;
@@ -674,6 +840,8 @@ footer {
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <img class="waffle-bg-img hero-bg-img-1" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImage-1.jpg" alt="" aria-hidden="true"/>
+  <img class="waffle-bg-img hero-bg-img-2" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-6.jpg" alt="" aria-hidden="true"/>
   <div class="hero-bg-text">WAFFLE</div>
   <div class="hero-inner">
     <div class="hero-content">
@@ -717,6 +885,7 @@ footer {
 
 <!-- ABOUT -->
 <section class="about" id="about">
+  <img class="waffle-bg-img about-bg-img" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-7.jpg" alt="" aria-hidden="true"/>
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap reveal">
@@ -755,6 +924,8 @@ footer {
 
 <!-- MENU -->
 <section id="menu">
+  <img class="waffle-bg-img menu-bg-img-1" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImage-1.jpg" alt="" aria-hidden="true"/>
+  <img class="waffle-bg-img menu-bg-img-2" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-6.jpg" alt="" aria-hidden="true"/>
   <div class="container">
     <div class="section-head reveal">
       <div class="section-label">What We Serve</div>
@@ -762,42 +933,78 @@ footer {
       <p class="section-sub">Every item on our menu is crafted to deliver a moment of pure joy — crispy, fluffy, and full of flavour.</p>
     </div>
     <div class="menu-grid">
+
+      <!-- 1. Fantasy -->
       <div class="menu-card reveal">
-        <div class="menu-icon">🧇</div>
-        <h3>Classic Butter Waffle</h3>
-        <p>Our signature golden waffle with house-made butter glaze — crisp edges, cloud-soft centre. The original, and the best.</p>
-        <span class="menu-tag">⭐ Bestseller</span>
+        <div class="menu-icon">✨</div>
+        <h3>Fantasy</h3>
+        <p>A dreamy waffle creation layered with rich chocolate — choose your indulgence from Dark, Milk, or White chocolate for a truly magical bite.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🖤 Dark</span>
+          <span class="menu-variant">🍫 Milk</span>
+          <span class="menu-variant">🤍 White</span>
+        </div>
+        <span class="menu-tag">⭐ Signature Series</span>
       </div>
+
+      <!-- 2. Chocolate -->
       <div class="menu-card reveal reveal-delay-1">
         <div class="menu-icon">🍫</div>
-        <h3>Chocolate Overload</h3>
-        <p>Dark Belgian chocolate drizzle, cocoa cream, chocolate shavings, and a dusting of cocoa powder. A chocoholic's dream.</p>
+        <h3>Chocolate</h3>
+        <p>Pure chocolate bliss on a crispy waffle base — the Caramel version adds golden sweetness while Triple goes all-in with three layers of chocolate heaven.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🍮 Caramel</span>
+          <span class="menu-variant">🔥 Triple</span>
+        </div>
         <span class="menu-tag">🔥 Most Loved</span>
       </div>
+
+      <!-- 3. Crunchy -->
       <div class="menu-card reveal reveal-delay-2">
-        <div class="menu-icon">🍓</div>
-        <h3>Berry Bliss Waffle</h3>
-        <p>Fresh strawberries, blueberries, raspberry coulis, and whipped cream. Light, fruity, and perfectly balanced.</p>
-        <span class="menu-tag">🌟 Fan Favourite</span>
+        <div class="menu-icon">🍪</div>
+        <h3>Crunchy</h3>
+        <p>For those who love a satisfying crunch — topped with crushed Oreo cream cookies or KitKat pieces for an irresistible texture contrast.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🖤 Oreo</span>
+          <span class="menu-variant">🍫 KitKat</span>
+        </div>
+        <span class="menu-tag">💥 Fan Favourite</span>
       </div>
+
+      <!-- 4. Gems -->
       <div class="menu-card reveal reveal-delay-3">
-        <div class="menu-icon">🍦</div>
-        <h3>Ice Cream Delight</h3>
-        <p>A warm waffle paired with two scoops of artisan ice cream — a beautiful contrast of hot and cold, soft and crispy.</p>
-        <span class="menu-tag">❄️ Summer Special</span>
+        <div class="menu-icon">💎</div>
+        <h3>Gems</h3>
+        <p>Colourful, fun, and utterly delicious — topped with Gems candy in Milk or Dark chocolate variety, perfect for the playful sweet tooth.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🍫 Milk</span>
+          <span class="menu-variant">🖤 Dark</span>
+        </div>
+        <span class="menu-tag">🎨 Colourful Treat</span>
       </div>
+
+      <!-- 5. Special Naughty Nutella -->
       <div class="menu-card reveal reveal-delay-1">
-        <div class="menu-icon">🥜</div>
-        <h3>Peanut Butter Crunch</h3>
-        <p>Thick peanut butter spread, salted caramel drizzle, crushed peanuts, and banana slices. Rich, nutty perfection.</p>
-        <span class="menu-tag">💛 New Arrival</span>
+        <div class="menu-icon">🌰</div>
+        <h3>Special Naughty Nutella</h3>
+        <p>Our indulgent special — a generously loaded Nutella waffle that's sinfully good. Hazelnut-chocolate spread piled high on our signature crispy base.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🌟 Chef's Special</span>
+        </div>
+        <span class="menu-tag">😈 Naughty & Nice</span>
       </div>
+
+      <!-- 6. Almond Cake -->
       <div class="menu-card reveal reveal-delay-2">
-        <div class="menu-icon">☕</div>
-        <h3>Artisan Beverages</h3>
-        <p>Pair your waffle with our handcrafted cold brews, creamy hot chocolates, and seasonal specialty drinks.</p>
-        <span class="menu-tag">☕ Pairs Perfectly</span>
+        <div class="menu-icon">🎂</div>
+        <h3>Almond Cake</h3>
+        <p>A premium waffle experience — crafted with the richness of almond cake flavour, topped with toasted almonds and a delicate cream finish.</p>
+        <div class="menu-variants">
+          <span class="menu-variant">🥛 Premium</span>
+        </div>
+        <span class="menu-tag">👑 Premium Pick</span>
       </div>
+
     </div>
   </div>
 </section>
@@ -840,44 +1047,99 @@ footer {
 
 <!-- FRANCHISE -->
 <section id="franchise">
+  <img class="waffle-bg-img franchise-bg-img" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-7.jpg" alt="" aria-hidden="true"/>
   <div class="container">
     <div class="section-head reveal">
       <div class="section-label">Franchise Opportunity</div>
       <h2 class="section-title">Be Part of the <em style="font-style:italic;color:var(--amber)">Whizz Family</em></h2>
-      <p class="section-sub">Join one of the fastest growing waffle brands in Andhra Pradesh & Telangana.</p>
+      <p class="section-sub">Join one of the fastest growing waffle brands in Andhra Pradesh & Telangana. Here's exactly what you get when you partner with us.</p>
     </div>
-    <div class="franchise-hero reveal">
+
+    <!-- INTRO DARK BANNER -->
+    <div class="franchise-intro reveal">
       <div>
         <h2>Start Your Own <em>WaffleWhizz</em> Outlet Today</h2>
-        <p style="margin-top:12px;">We provide everything you need — brand support, training, recipes, and marketing. Low investment, high returns, and a product people love. Your success is our priority.</p>
-        <div style="margin-top:28px;">
-          <a href="#contact"><button class="nav-cta" style="font-size:14px;padding:12px 28px;">Enquire Now →</button></a>
-        </div>
+        <p style="margin-top:12px;">Low investment, high returns, and a product people absolutely love. We give you everything you need — from the waffle maker to the marketing templates — so you can focus on what matters: serving great waffles and growing your business.</p>
       </div>
-      <div class="franchise-perks">
-        <div class="perk">
-          <div class="perk-icon">🏷️</div>
-          <h4>Low Investment</h4>
-          <p>Affordable setup costs with strong ROI potential.</p>
-        </div>
-        <div class="perk">
-          <div class="perk-icon">🎓</div>
-          <h4>Full Training</h4>
-          <p>Complete recipe & operations training provided.</p>
-        </div>
-        <div class="perk">
-          <div class="perk-icon">📣</div>
-          <h4>Marketing Support</h4>
-          <p>Brand assets, social media & launch support.</p>
-        </div>
-        <div class="perk">
-          <div class="perk-icon">📍</div>
-          <h4>Location Guidance</h4>
-          <p>We help identify the best spots for your outlet.</p>
-        </div>
+      <div class="franchise-intro-actions">
+        <a href="#contact"><button class="nav-cta" style="font-size:14px;padding:12px 28px;">Enquire Now →</button></a>
+        <a href="https://wa.me/+919492520198" target="_blank"><button style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#F5F0E8;padding:12px 28px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Chat on WhatsApp</button></a>
       </div>
     </div>
 
+    <!-- 4 PACKAGE CARDS -->
+    <div class="franchise-packages">
+
+      <!-- 1. Premium Equipment -->
+      <div class="fpack reveal">
+        <div class="fpack-header">
+          <div class="fpack-icon">⚙️</div>
+          <div>
+            <h3>Premium Equipment</h3>
+            <span>Everything to set up your counter</span>
+          </div>
+        </div>
+        <ul class="fpack-items">
+          <li>Commercial-grade waffle maker — non-stick, efficient, and durable</li>
+          <li>Topping dispensers for clean, easy service</li>
+          <li>Storage containers for all ingredients</li>
+          <li>Portable counter setup with full WaffleWhizz branding</li>
+          <li>Basic utensils and tools included</li>
+        </ul>
+      </div>
+
+      <!-- 2. Training & Support -->
+      <div class="fpack reveal reveal-delay-1">
+        <div class="fpack-header">
+          <div class="fpack-icon">🎓</div>
+          <div>
+            <h3>Training & Support</h3>
+            <span>We guide you every step of the way</span>
+          </div>
+        </div>
+        <ul class="fpack-items">
+          <li>Hands-on training for preparing and serving waffles</li>
+          <li>Business setup guidance from day one</li>
+          <li>Proven marketing strategies to attract customers</li>
+          <li>Recipe ideas for classic and signature WaffleWhizz creations</li>
+        </ul>
+      </div>
+
+      <!-- 3. Branding Kit -->
+      <div class="fpack reveal reveal-delay-2">
+        <div class="fpack-header">
+          <div class="fpack-icon">🎨</div>
+          <div>
+            <h3>Branding Kit</h3>
+            <span>Look professional from day one</span>
+          </div>
+        </div>
+        <ul class="fpack-items">
+          <li>Customized banners and posters for your outlet</li>
+          <li>Branded packaging for every waffle you serve</li>
+          <li>Ready-to-use digital marketing templates for social media</li>
+        </ul>
+      </div>
+
+      <!-- 4. Ingredients Starter Kit -->
+      <div class="fpack reveal reveal-delay-3">
+        <div class="fpack-header">
+          <div class="fpack-icon">🧺</div>
+          <div>
+            <h3>Ingredients Starter Kit</h3>
+            <span>Premium quality, ready to go</span>
+          </div>
+        </div>
+        <ul class="fpack-items">
+          <li>High-quality waffle mix — our own tested recipe</li>
+          <li>Assorted toppings: chocolate, fruits, syrups, nuts & more</li>
+          <li>Essential oils and flavour additives for signature taste</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- LOCATIONS -->
     <div class="section-head reveal" style="margin-bottom:28px;">
       <div class="section-label">Active Locations</div>
       <h3 class="section-title" style="font-size:clamp(24px,3vw,36px);">50+ Outlets Across <em style="font-style:italic;color:var(--amber)">AP & Telangana</em></h3>
@@ -1043,6 +1305,7 @@ footer {
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
+  <img class="waffle-bg-img contact-bg-img" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-6.jpg" alt="" aria-hidden="true"/>
   <div class="container">
     <div class="section-head reveal">
       <div class="section-label">Get in Touch</div>
