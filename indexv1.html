@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WaffleWhizz — Crispy & Fluffy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --amber: #E8920A;
+  --amber-light: #FFF4DC;
+  --amber-glow: rgba(232,146,10,0.15);
+  --bg: #FAFAF8;
+  --bg2: #F3F1EC;
+  --surface: #FFFFFF;
+  --border: rgba(0,0,0,0.08);
+  --text: #0F0D09;
+  --text2: #5A5348;
+  --text3: #9A9088;
+  --nav-bg: rgba(250,250,248,0.85);
+  --shadow: 0 2px 24px rgba(0,0,0,0.07);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.1);
+  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="dark"] {
+  --bg: #0A0906;
+  --bg2: #141210;
+  --surface: #1C1A16;
+  --border: rgba(255,255,255,0.08);
+  --text: #F5F0E8;
+  --text2: #A89E92;
+  --text3: #6B6358;
+  --nav-bg: rgba(10,9,6,0.88);
+  --amber-light: rgba(232,146,10,0.12);
+  --shadow: 0 2px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background var(--transition), color var(--transition);
+  overflow-x:hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--amber); border-radius:3px; }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  background:var(--nav-bg);
+  backdrop-filter:blur(20px) saturate(1.6);
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);
+  border-bottom:1px solid var(--border);
+  height:66px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 6%;
+  transition:background var(--transition), border-color var(--transition);
+}
+.nav-logo {
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none;
+}
+.nav-logo img {
+  height:36px; width:36px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1.5px solid var(--border);
+}
+.nav-logo span {
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px; font-weight:700;
+  color:var(--text); letter-spacing:-0.3px;
+}
+.nav-logo span em { font-style:italic; color:var(--amber); }
+.nav-links {
+  display:flex; gap:36px; list-style:none;
+}
+.nav-links a {
+  text-decoration:none;
+  font-size:13.5px; font-weight:500;
+  color:var(--text2);
+  letter-spacing:0.2px;
+  transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after {
+  content:'';
+  position:absolute; bottom:-3px; left:0; right:0; height:1px;
+  background:var(--amber);
+  transform:scaleX(0);
+  transform-origin:right;
+  transition:transform 0.25s ease;
+}
+.nav-links a:hover { color:var(--amber); }
+.nav-links a:hover::after { transform:scaleX(1); transform-origin:left; }
+.nav-actions { display:flex; align-items:center; gap:12px; }
+.theme-toggle {
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px;
+  transition:background var(--transition), border-color var(--transition), transform 0.2s;
+  color:var(--text);
+}
+.theme-toggle:hover { transform:rotate(20deg); background:var(--amber-light); }
+.nav-cta {
+  background:var(--amber);
+  color:#fff;
+  border:none; cursor:pointer;
+  padding:9px 22px;
+  border-radius:100px;
+  font-family:'Outfit',sans-serif;
+  font-size:13.5px; font-weight:600;
+  letter-spacing:0.2px;
+  transition:opacity 0.2s, transform 0.2s;
+}
+.nav-cta:hover { opacity:0.88; transform:translateY(-1px); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+.hamburger span { display:block; width:22px; height:1.5px; background:var(--text); border-radius:2px; transition:all 0.3s; }
+
+/* ── MOBILE NAV ── */
+.mobile-nav {
+  display:none;
+  position:fixed; top:66px; left:0; right:0; z-index:998;
+  background:var(--nav-bg);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:20px 6% 24px;
+  flex-direction:column; gap:18px;
+}
+.mobile-nav.open { display:flex; }
+.mobile-nav a { text-decoration:none; font-size:16px; font-weight:500; color:var(--text2); }
+.mobile-nav a:hover { color:var(--amber); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  display:flex; align-items:center;
+  padding:120px 6% 80px;
+  position:relative; overflow:hidden;
+}
+.hero-bg-text {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(100px,18vw,240px);
+  font-weight:700;
+  color:var(--amber);
+  opacity:0.04;
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none;
+  letter-spacing:-4px;
+}
+.hero-inner {
+  max-width:1100px; width:100%; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center;
+}
+.hero-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--amber-light);
+  border:1px solid rgba(232,146,10,0.25);
+  color:var(--amber);
+  font-size:12px; font-weight:600;
+  padding:5px 14px; border-radius:100px;
+  letter-spacing:0.8px; text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero-pill::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--amber); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.hero h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(44px,5.5vw,72px);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:-1.5px;
+  margin-bottom:22px;
+}
+.hero h1 em { font-style:italic; color:var(--amber); }
+.hero-sub {
+  font-size:16px; color:var(--text2);
+  line-height:1.75; max-width:440px;
+  margin-bottom:38px; font-weight:300;
+}
+.hero-btns { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.btn-dark {
+  background:var(--text); color:var(--bg);
+  border:none; cursor:pointer;
+  padding:14px 30px; border-radius:100px;
+  font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:600;
+  transition:opacity 0.2s, transform 0.2s;
+}
+.btn-dark:hover { opacity:0.8; transform:translateY(-2px); }
+.btn-ghost {
+  background:transparent;
+  color:var(--text);
+  border:1px solid var(--border);
+  cursor:pointer;
+  padding:14px 30px; border-radius:100px;
+  font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:500;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.btn-ghost:hover { border-color:var(--amber); color:var(--amber); transform:translateY(-2px); }
+
+/* HERO LOGO CARD */
+.hero-visual {
+  display:flex; flex-direction:column; align-items:center; gap:20px;
+}
+.logo-frame {
+  width:260px; height:260px;
+  border-radius:32px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg), 0 0 0 8px var(--amber-glow);
+  animation:float 5s ease-in-out infinite alternate;
+  background:var(--surface);
+}
+.logo-frame img { width:100%; height:100%; object-fit:cover; }
+@keyframes float { from{transform:translateY(0);} to{transform:translateY(-14px);} }
+.hero-stats {
+  display:flex; gap:20px;
+}
+.hstat {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 20px;
+  text-align:center;
+  box-shadow:var(--shadow);
+  flex:1;
+  transition:background var(--transition);
+}
+.hstat .num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px; font-weight:700;
+  color:var(--amber); line-height:1;
+}
+.hstat .lbl { font-size:11px; color:var(--text3); margin-top:3px; font-weight:500; text-transform:uppercase; letter-spacing:0.5px; }
+
+/* ── SECTION BASE ── */
+section { padding:100px 6%; }
+.container { max-width:1100px; margin:0 auto; }
+.section-label {
+  font-size:11.5px; font-weight:600;
+  color:var(--amber); letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.section-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(34px,4vw,52px);
+  font-weight:700;
+  letter-spacing:-1px;
+  line-height:1.1;
+  margin-bottom:16px;
+}
+.section-sub {
+  font-size:15.5px; color:var(--text2);
+  max-width:520px; line-height:1.75;
+  font-weight:300;
+}
+.section-head { margin-bottom:56px; }
+
+/* ── ABOUT ── */
+.about { background:var(--bg2); }
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center;
+}
+.about-img-wrap {
+  position:relative;
+}
+.about-img-wrap img {
+  width:100%; border-radius:20px;
+  object-fit:cover; aspect-ratio:4/3;
+  border:1px solid var(--border);
+}
+.about-badge {
+  position:absolute; bottom:-16px; right:-16px;
+  background:var(--amber);
+  color:#fff;
+  border-radius:16px;
+  padding:16px 22px;
+  text-align:center;
+  box-shadow:var(--shadow-lg);
+}
+.about-badge .big { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; display:block; }
+.about-badge .sm { font-size:11px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; opacity:0.85; }
+.about-content .section-head { margin-bottom:28px; }
+.about-content p { font-size:15px; color:var(--text2); line-height:1.8; margin-bottom:22px; font-weight:300; }
+.about-pills { display:flex; gap:10px; flex-wrap:wrap; margin-top:28px; }
+.pill {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:100px; padding:8px 18px;
+  font-size:13px; font-weight:500; color:var(--text2);
+  transition:border-color 0.2s, color 0.2s;
+}
+.pill:hover { border-color:var(--amber); color:var(--amber); }
+
+/* ── MENU ── */
+.menu-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+.menu-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:28px 24px;
+  transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  position:relative; overflow:hidden;
+}
+.menu-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--amber);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.3s;
+}
+.menu-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:rgba(232,146,10,0.3); }
+.menu-card:hover::before { transform:scaleX(1); }
+.menu-icon { font-size:36px; margin-bottom:16px; }
+.menu-card h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px; font-weight:700; margin-bottom:8px;
+}
+.menu-card p { font-size:13.5px; color:var(--text2); line-height:1.65; font-weight:300; }
+.menu-tag {
+  display:inline-block;
+  margin-top:16px;
+  font-size:11px; font-weight:600;
+  color:var(--amber); letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+
+/* ── GALLERY ── */
+.gallery { background:var(--bg2); }
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto;
+  gap:14px;
+}
+.gallery-item {
+  border-radius:16px; overflow:hidden;
+  aspect-ratio:1;
+  background:var(--surface);
+  border:1px solid var(--border);
+  position:relative;
+}
+.gallery-item:first-child {
+  grid-column:span 2; grid-row:span 2;
+  aspect-ratio:auto;
+}
+.gallery-item img {
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.gallery-item:hover img { transform:scale(1.05); }
+.gallery-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
+  opacity:0; transition:opacity 0.3s;
+  display:flex; align-items:flex-end;
+  padding:20px;
+}
+.gallery-item:hover .gallery-overlay { opacity:1; }
+.gallery-overlay span { color:#fff; font-size:13px; font-weight:500; }
+.gallery-placeholder {
+  width:100%; height:100%;
+  background:var(--bg2);
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:8px;
+  color:var(--text3);
+}
+.gallery-placeholder span { font-size:28px; }
+.gallery-placeholder p { font-size:12px; font-weight:500; }
+
+/* ── FRANCHISE ── */
+.franchise-hero {
+  background:var(--text);
+  border-radius:24px;
+  padding:56px;
+  margin-bottom:56px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:60px; align-items:center;
+  position:relative; overflow:hidden;
+}
+.franchise-hero::before {
+  content:'';
+  position:absolute; right:-80px; top:-80px;
+  width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,146,10,0.25), transparent 70%);
+  pointer-events:none;
+}
+.franchise-hero h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,3.5vw,46px);
+  font-weight:700;
+  color:#F5F0E8;
+  letter-spacing:-1px;
+  margin-bottom:14px;
+}
+.franchise-hero h2 em { font-style:italic; color:var(--amber); }
+.franchise-hero p { font-size:15px; color:#8A8278; line-height:1.75; font-weight:300; }
+.franchise-perks {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.perk {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px; padding:18px 20px;
+}
+.perk-icon { font-size:20px; margin-bottom:8px; }
+.perk h4 { font-size:13.5px; font-weight:600; color:#F5F0E8; margin-bottom:4px; }
+.perk p { font-size:12px; color:#6B6358; line-height:1.5; }
+
+/* LOCATIONS */
+/* ── SNAKE ROAD ── */
+.snake-tabs {
+  display:flex; gap:10px; margin-bottom:36px; flex-wrap:wrap;
+}
+.snake-tab {
+  padding:8px 20px; border-radius:100px;
+  border:1.5px solid var(--border);
+  background:var(--surface);
+  font-family:'Outfit',sans-serif;
+  font-size:13px; font-weight:600;
+  color:var(--text2); cursor:pointer;
+  transition:all 0.2s;
+}
+.snake-tab.active {
+  background:var(--amber); color:#fff;
+  border-color:var(--amber);
+}
+.snake-wrap { width:100%; overflow-x:auto; }
+.snake-wrap svg { display:block; width:100%; }
+
+/* ── CONTACT ── */
+.contact { background:var(--bg2); }
+.contact-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:60px; align-items:start;
+}
+.contact-info { display:flex; flex-direction:column; gap:20px; }
+.contact-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px 24px;
+  display:flex; align-items:center; gap:16px;
+  transition:border-color 0.2s;
+}
+.contact-card:hover { border-color:rgba(232,146,10,0.35); }
+.contact-icon {
+  width:44px; height:44px; border-radius:12px;
+  background:var(--amber-light);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; flex-shrink:0;
+}
+.contact-card-body h4 { font-size:12px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+.contact-card-body p, .contact-card-body a {
+  font-size:15px; font-weight:500; color:var(--text);
+  text-decoration:none; transition:color 0.2s;
+}
+.contact-card-body a:hover { color:var(--amber); }
+
+/* FORM */
+.contact-form {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:36px;
+}
+.contact-form h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px; font-weight:700;
+  margin-bottom:6px;
+}
+.contact-form .sub { font-size:14px; color:var(--text2); margin-bottom:28px; font-weight:300; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-group { margin-bottom:16px; }
+label { font-size:12.5px; font-weight:600; color:var(--text2); letter-spacing:0.3px; display:block; margin-bottom:7px; }
+input, select, textarea {
+  width:100%; padding:12px 14px;
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; color:var(--text);
+  font-family:'Outfit',sans-serif; font-size:14px; font-weight:400;
+  outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+  resize:vertical;
+}
+input:focus, select:focus, textarea:focus {
+  border-color:var(--amber);
+  box-shadow:0 0 0 3px rgba(232,146,10,0.12);
+}
+textarea { min-height:100px; }
+.submit-btn {
+  width:100%; padding:14px;
+  background:var(--amber); color:#fff;
+  border:none; border-radius:100px;
+  font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:600;
+  cursor:pointer; letter-spacing:0.3px;
+  transition:opacity 0.2s, transform 0.2s;
+  margin-top:6px;
+}
+.submit-btn:hover { opacity:0.88; transform:translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--text);
+  padding:60px 6% 32px;
+  color:#8A8278;
+}
+.footer-inner {
+  max-width:1100px; margin:0 auto;
+}
+.footer-top {
+  display:grid; grid-template-columns:1.5fr 1fr 1fr;
+  gap:60px; margin-bottom:48px;
+}
+.footer-brand .fl {
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px; font-weight:700;
+  color:#F5F0E8; margin-bottom:10px;
+}
+.footer-brand .fl em { color:var(--amber); font-style:italic; }
+.footer-brand p { font-size:13.5px; line-height:1.75; max-width:260px; }
+.footer-col h5 {
+  font-size:12px; font-weight:600;
+  color:#F5F0E8; letter-spacing:0.8px;
+  text-transform:uppercase; margin-bottom:18px;
+}
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-col ul a {
+  font-size:14px; color:#6B6358;
+  text-decoration:none; transition:color 0.2s;
+}
+.footer-col ul a:hover { color:var(--amber); }
+.footer-bottom {
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding-top:24px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:12px;
+}
+.footer-bottom p { font-size:13px; }
+.insta-link {
+  display:inline-flex; align-items:center; gap:7px;
+  color:var(--amber); text-decoration:none;
+  font-size:13.5px; font-weight:500;
+  transition:opacity 0.2s;
+}
+.insta-link:hover { opacity:0.75; }
+
+/* ── FLOATING WHATSAPP ── */
+.wa-float {
+  position:fixed; bottom:28px; right:28px; z-index:997;
+  width:54px; height:54px; border-radius:50%;
+  background:#25D366;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 24px rgba(37,211,102,0.45);
+  text-decoration:none;
+  transition:transform 0.25s, box-shadow 0.25s;
+  animation:wa-pop 0.5s 1.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.wa-float:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(37,211,102,0.55); }
+.wa-float svg { width:28px; height:28px; fill:#fff; }
+@keyframes wa-pop { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+.wa-tooltip {
+  position:absolute; right:62px; top:50%;
+  transform:translateY(-50%);
+  background:#111; color:#fff;
+  font-size:12px; font-weight:500;
+  padding:6px 12px; border-radius:8px;
+  white-space:nowrap; pointer-events:none;
+  opacity:0; transition:opacity 0.2s;
+}
+.wa-tooltip::after {
+  content:''; position:absolute; left:100%; top:50%;
+  transform:translateY(-50%);
+  border:5px solid transparent;
+  border-left-color:#111;
+}
+.wa-float:hover .wa-tooltip { opacity:1; }
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:0.1s; }
+.reveal-delay-2 { transition-delay:0.2s; }
+.reveal-delay-3 { transition-delay:0.3s; }
+.reveal-delay-4 { transition-delay:0.4s; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner { grid-template-columns:1fr; gap:48px; }
+  .hero-visual { order:-1; }
+  .about-grid, .contact-grid, .franchise-hero { grid-template-columns:1fr; gap:40px; }
+  .franchise-hero { padding:36px; }
+  .franchise-perks { grid-template-columns:1fr 1fr; }
+  .footer-top { grid-template-columns:1fr 1fr; }
+  .gallery-grid { grid-template-columns:1fr 1fr; }
+  .gallery-item:first-child { grid-column:span 2; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .form-row { grid-template-columns:1fr; }
+}
+@media(max-width:560px){
+  section { padding:70px 5%; }
+  .hero { padding:100px 5% 60px; }
+  nav { padding:0 5%; }
+  .footer-top { grid-template-columns:1fr; gap:32px; }
+  .gallery-grid { grid-template-columns:1fr; }
+  .gallery-item:first-child { grid-column:span 1; }
+  .hero-stats { flex-direction:column; gap:10px; }
+  .logo-frame { width:200px; height:200px; }
+  .franchise-perks { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz Logo" onerror="this.style.display='none'"/>
+    <span>Waffle<em>Whizz</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#franchise">Franchise</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#contact"><button class="nav-cta">Get in Touch</button></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" class="mob-link">About</a>
+  <a href="#menu" class="mob-link">Menu</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#franchise" class="mob-link">Franchise</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-text">WAFFLE</div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-pill reveal">Est. 2024 &nbsp;·&nbsp; Visakhapatnam</div>
+      <h1 class="reveal reveal-delay-1">
+        <em>Crispy</em> Outside.<br>
+        Fluffy Inside.<br>
+        Always Perfect.
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        WaffleWhizz brings you premium artisan waffles crafted with love — 
+        golden, airy, and irresistibly delicious. Taste the difference at 
+        every franchise across Andhra Pradesh & Telangana.
+      </p>
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="#menu"><button class="btn-dark">Explore Menu</button></a>
+        <a href="#franchise"><button class="btn-ghost">Own a Franchise →</button></a>
+      </div>
+    </div>
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="logo-frame">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz" onerror="this.outerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;\'>🧇</div>'"/>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="num">50+</div>
+          <div class="lbl">Locations</div>
+        </div>
+        <div class="hstat">
+          <div class="num">2024</div>
+          <div class="lbl">Founded</div>
+        </div>
+        <div class="hstat">
+          <div class="num">100%</div>
+          <div class="lbl">Fresh Daily</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz Store" onerror="this.style.background='var(--bg)';this.style.height='300px'"/>
+        <div class="about-badge">
+          <span class="big">2024</span>
+          <span class="sm">Established</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="section-head reveal">
+          <div class="section-label">Our Story</div>
+          <h2 class="section-title">Born from a Passion for the <em style="font-style:italic;color:var(--amber)">Perfect Waffle</em></h2>
+        </div>
+        <p class="reveal reveal-delay-1">
+          WaffleWhizz started in 2024 in the heart of Visakhapatnam with one 
+          simple obsession — making the crispiest, fluffiest, most indulgent 
+          waffles in the region. What began as a single outlet has now blossomed 
+          into a beloved brand with 10+ locations across Andhra Pradesh & Telangana.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Every waffle we make is a promise — golden on the outside, impossibly 
+          soft on the inside, loaded with the finest toppings. We believe great 
+          food brings people together, one perfect square at a time.
+        </p>
+        <div class="about-pills reveal reveal-delay-3">
+          <span class="pill">🧇 Fresh Batter Daily</span>
+          <span class="pill">🍓 Premium Toppings</span>
+          <span class="pill">☕ Artisan Beverages</span>
+          <span class="pill">🏪 Franchise Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label">What We Serve</div>
+      <h2 class="section-title">Our Signature <em style="font-style:italic;color:var(--amber)">Creations</em></h2>
+      <p class="section-sub">Every item on our menu is crafted to deliver a moment of pure joy — crispy, fluffy, and full of flavour.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-icon">🧇</div>
+        <h3>Classic Butter Waffle</h3>
+        <p>Our signature golden waffle with house-made butter glaze — crisp edges, cloud-soft centre. The original, and the best.</p>
+        <span class="menu-tag">⭐ Bestseller</span>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-icon">🍫</div>
+        <h3>Chocolate Overload</h3>
+        <p>Dark Belgian chocolate drizzle, cocoa cream, chocolate shavings, and a dusting of cocoa powder. A chocoholic's dream.</p>
+        <span class="menu-tag">🔥 Most Loved</span>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-icon">🍓</div>
+        <h3>Berry Bliss Waffle</h3>
+        <p>Fresh strawberries, blueberries, raspberry coulis, and whipped cream. Light, fruity, and perfectly balanced.</p>
+        <span class="menu-tag">🌟 Fan Favourite</span>
+      </div>
+      <div class="menu-card reveal reveal-delay-3">
+        <div class="menu-icon">🍦</div>
+        <h3>Ice Cream Delight</h3>
+        <p>A warm waffle paired with two scoops of artisan ice cream — a beautiful contrast of hot and cold, soft and crispy.</p>
+        <span class="menu-tag">❄️ Summer Special</span>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-icon">🥜</div>
+        <h3>Peanut Butter Crunch</h3>
+        <p>Thick peanut butter spread, salted caramel drizzle, crushed peanuts, and banana slices. Rich, nutty perfection.</p>
+        <span class="menu-tag">💛 New Arrival</span>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-icon">☕</div>
+        <h3>Artisan Beverages</h3>
+        <p>Pair your waffle with our handcrafted cold brews, creamy hot chocolates, and seasonal specialty drinks.</p>
+        <span class="menu-tag">☕ Pairs Perfectly</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label">Moments & Bites</div>
+      <h2 class="section-title">A Glimpse of <em style="font-style:italic;color:var(--amber)">WaffleWhizz</em></h2>
+      <p class="section-sub">Real stores, real smiles, real waffles. Follow us on Instagram for the latest.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz"
+          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>🧇</span><p>WaffleWhizz</p></div>'"/>
+        <div class="gallery-overlay"><span>WaffleWhizz — Visakhapatnam</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;" class="reveal">
+      <a href="https://www.instagram.com/wafflewhizz_official?igsh=YzIzdjk4OWltMW80" target="_blank" class="insta-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Follow @wafflewhizz_official for daily deliciousness →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FRANCHISE -->
+<section id="franchise">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label">Franchise Opportunity</div>
+      <h2 class="section-title">Be Part of the <em style="font-style:italic;color:var(--amber)">Whizz Family</em></h2>
+      <p class="section-sub">Join one of the fastest growing waffle brands in Andhra Pradesh & Telangana.</p>
+    </div>
+    <div class="franchise-hero reveal">
+      <div>
+        <h2>Start Your Own <em>WaffleWhizz</em> Outlet Today</h2>
+        <p style="margin-top:12px;">We provide everything you need — brand support, training, recipes, and marketing. Low investment, high returns, and a product people love. Your success is our priority.</p>
+        <div style="margin-top:28px;">
+          <a href="#contact"><button class="nav-cta" style="font-size:14px;padding:12px 28px;">Enquire Now →</button></a>
+        </div>
+      </div>
+      <div class="franchise-perks">
+        <div class="perk">
+          <div class="perk-icon">🏷️</div>
+          <h4>Low Investment</h4>
+          <p>Affordable setup costs with strong ROI potential.</p>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">🎓</div>
+          <h4>Full Training</h4>
+          <p>Complete recipe & operations training provided.</p>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">📣</div>
+          <h4>Marketing Support</h4>
+          <p>Brand assets, social media & launch support.</p>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">📍</div>
+          <h4>Location Guidance</h4>
+          <p>We help identify the best spots for your outlet.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head reveal" style="margin-bottom:28px;">
+      <div class="section-label">Active Locations</div>
+      <h3 class="section-title" style="font-size:clamp(24px,3vw,36px);">50+ Outlets Across <em style="font-style:italic;color:var(--amber)">AP & Telangana</em></h3>
+    </div>
+
+    <div class="reveal">
+      <div class="snake-tabs">
+        <button class="snake-tab active" onclick="showState('ts')">🟡 Telangana — 21 Outlets</button>
+        <button class="snake-tab" onclick="showState('ap')">🟠 Andhra Pradesh — 26 Outlets</button>
+      </div>
+
+      <div class="snake-wrap" id="snake-ts">
+        <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <defs>
+            <marker id="rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#E8920A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <!-- ROAD snake path: left→right, right→left, zigzag -->
+          <!-- Row 1: L→R -->
+          <path d="M60,60 Q220,40 380,60 Q540,80 700,60 Q800,50 840,80" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,60 Q220,40 380,60 Q540,80 700,60 Q800,50 840,80" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 1→2 curve -->
+          <path d="M840,80 Q880,130 840,180" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,80 Q880,130 840,180" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 2: R→L -->
+          <path d="M840,180 Q680,160 520,180 Q360,200 200,180 Q100,165 60,200" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,180 Q680,160 520,180 Q360,200 200,180 Q100,165 60,200" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 2→3 curve -->
+          <path d="M60,200 Q20,250 60,300" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,200 Q20,250 60,300" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 3: L→R -->
+          <path d="M60,300 Q220,280 380,300 Q540,320 700,300 Q800,288 840,320" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,300 Q220,280 380,300 Q540,320 700,300 Q800,288 840,320" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 3→4 curve -->
+          <path d="M840,320 Q880,370 840,420" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,320 Q880,370 840,420" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 4: R→L -->
+          <path d="M840,420 Q680,400 520,420 Q360,440 200,420 Q100,408 60,440" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,420 Q680,400 520,420 Q360,440 200,420 Q100,408 60,440" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 4→5 curve -->
+          <path d="M60,440 Q20,490 60,540" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,440 Q20,490 60,540" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 5: L→R partial -->
+          <path d="M60,540 Q220,520 380,540 Q500,555 560,540" fill="none" stroke="#E8D4A0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,540 Q220,520 380,540 Q500,555 560,540" fill="none" stroke="#E8920A" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+
+          <!-- PIN helper macro: circle + teardrop + label -->
+          <!-- Row 1 L→R: Serlingampally, Miyapur, KPHB, Manikonda, Shamshabad, Sangareddy, Kokapeta -->
+          <g id="p0" transform="translate(60,60)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Serlingampally</text></g>
+          <g transform="translate(200,52)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Miyapur</text></g>
+          <g transform="translate(360,62)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">KPHB</text></g>
+          <g transform="translate(520,72)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Manikonda</text></g>
+          <g transform="translate(690,58)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Shamshabad</text></g>
+
+          <!-- Row 2 R→L: Sangareddy, Kokapeta, RTC X Roads, Jeedimetla, Chinthal, Ameenpur -->
+          <g transform="translate(840,180)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Sangareddy</text></g>
+          <g transform="translate(680,167)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Kokapeta</text></g>
+          <g transform="translate(510,182)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">RTC X Roads</text></g>
+          <g transform="translate(340,192)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Jeedimetla</text></g>
+          <g transform="translate(175,178)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Chinthal</text></g>
+
+          <!-- Row 3 L→R: Ameenpur, Beramguda, Cherlapally, Gajularamaram, Kamareddy -->
+          <g transform="translate(60,300)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Ameenpur</text></g>
+          <g transform="translate(250,288)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Beramguda</text></g>
+          <g transform="translate(450,303)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Cherlapally</text></g>
+          <g transform="translate(650,295)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Gajularamaram</text></g>
+          <g transform="translate(840,320)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Kamareddy</text></g>
+
+          <!-- Row 4 R→L: Maisammaguda, Tukkuguda, Statue of Quality, Wanaparthy, Nagarkarnool -->
+          <g transform="translate(700,408)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Maisammaguda</text></g>
+          <g transform="translate(510,423)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Tukkuguda</text></g>
+          <g transform="translate(310,432)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Statue of Quality</text></g>
+          <g transform="translate(150,418)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Wanaparthy</text></g>
+          <g transform="translate(60,440)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Nagarkarnool</text></g>
+
+          <!-- Row 5 L→R: Kodad -->
+          <g transform="translate(200,533)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Kodad</text></g>
+          <g transform="translate(60,540)"><circle r="8" fill="#E8920A"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#E8920A"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#FFA500">Beramguda</text></g>
+        </svg>
+      </div>
+
+      <div class="snake-wrap" id="snake-ap" style="display:none;">
+        <svg viewBox="0 0 900 740" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <defs>
+            <marker id="rd2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#CC6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <!-- Row 1 L→R -->
+          <path d="M60,60 Q220,40 380,60 Q540,80 700,60 Q800,50 840,80" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,60 Q220,40 380,60 Q540,80 700,60 Q800,50 840,80" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <path d="M840,80 Q880,130 840,180" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,80 Q880,130 840,180" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 2 R→L -->
+          <path d="M840,180 Q680,160 520,180 Q360,200 200,180 Q100,165 60,200" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,180 Q680,160 520,180 Q360,200 200,180 Q100,165 60,200" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <path d="M60,200 Q20,250 60,300" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,200 Q20,250 60,300" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 3 L→R -->
+          <path d="M60,300 Q220,280 380,300 Q540,320 700,300 Q800,288 840,320" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,300 Q220,280 380,300 Q540,320 700,300 Q800,288 840,320" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <path d="M840,320 Q880,370 840,420" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,320 Q880,370 840,420" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 4 R→L -->
+          <path d="M840,420 Q680,400 520,420 Q360,440 200,420 Q100,408 60,440" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,420 Q680,400 520,420 Q360,440 200,420 Q100,408 60,440" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <path d="M60,440 Q20,490 60,540" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,440 Q20,490 60,540" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 5 L→R -->
+          <path d="M60,540 Q220,520 380,540 Q540,560 700,540 Q800,528 840,560" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,540 Q220,520 380,540 Q540,560 700,540 Q800,528 840,560" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <path d="M840,560 Q880,610 840,660" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,560 Q880,610 840,660" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 6 R→L partial -->
+          <path d="M840,660 Q680,640 520,660 Q380,675 300,660" fill="none" stroke="#F0DEC0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,660 Q680,640 520,660 Q380,675 300,660" fill="none" stroke="#CC6600" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+
+          <!-- AP PIN macro -->
+          <!-- Row 1: Vijayawada, Madhurawada, Bheemili, Pendurthi, Malkapuram -->
+          <g transform="translate(60,60)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Vijayawada</text></g>
+          <g transform="translate(240,50)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Madhurawada</text></g>
+          <g transform="translate(430,62)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Bheemili</text></g>
+          <g transform="translate(620,70)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Pendurthi</text></g>
+          <g transform="translate(840,180)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Malkapuram</text></g>
+
+          <!-- Row 2: Urvasi, Guntur, Rajahmundry, Kakinada, Kadapa -->
+          <g transform="translate(670,167)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Urvasi</text></g>
+          <g transform="translate(490,180)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Guntur</text></g>
+          <g transform="translate(310,192)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Rajahmundry</text></g>
+          <g transform="translate(140,178)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Kakinada</text></g>
+
+          <!-- Row 3: Kadapa, Kurnool, Ongole, Eluru, Machilipatnam -->
+          <g transform="translate(60,300)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Kadapa</text></g>
+          <g transform="translate(250,286)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Kurnool</text></g>
+          <g transform="translate(460,303)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Ongole</text></g>
+          <g transform="translate(660,293)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Eluru</text></g>
+          <g transform="translate(840,320)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Machilipatnam</text></g>
+
+          <!-- Row 4: Vizianagaram, Anakapalli, Amalapuram, Peddapuram, Pitapuram -->
+          <g transform="translate(700,406)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Vizianagaram</text></g>
+          <g transform="translate(510,420)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Anakapalli</text></g>
+          <g transform="translate(310,432)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Amalapuram</text></g>
+          <g transform="translate(140,418)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Peddapuram</text></g>
+          <g transform="translate(60,440)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Pitapuram</text></g>
+
+          <!-- Row 5: Tuni, Samarlakota, Surampalem, Rajam, Jaggaypet -->
+          <g transform="translate(60,540)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Tuni</text></g>
+          <g transform="translate(250,526)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Samarlakota</text></g>
+          <g transform="translate(450,542)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Surampalem</text></g>
+          <g transform="translate(650,530)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Rajam</text></g>
+          <g transform="translate(840,560)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Jaggaypet</text></g>
+
+          <!-- Row 6: Yemmiganur, Garividi -->
+          <g transform="translate(700,648)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Yemmiganur</text></g>
+          <g transform="translate(520,660)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Garividi</text></g>
+          <g transform="translate(340,665)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Koyyalagudem</text></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's <em style="font-style:italic;color:var(--amber)">Connect</em></h2>
+      <p class="section-sub">Franchise enquiries, collaborations, or just want to say hi — we'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-card reveal">
+          <div class="contact-icon">📞</div>
+          <div class="contact-card-body">
+            <h4>Phone / WhatsApp</h4>
+            <a href="tel:+919492520198">+91 94925 20198</a>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-1">
+          <div class="contact-icon">📍</div>
+          <div class="contact-card-body">
+            <h4>Main Branch</h4>
+            <p>Visakhapatnam, Andhra Pradesh</p>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-2">
+          <div class="contact-icon">💬</div>
+          <div class="contact-card-body">
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/+919492520198" target="_blank">Chat with us on WhatsApp</a>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-3">
+          <div class="contact-icon">📸</div>
+          <div class="contact-card-body">
+            <h4>Instagram</h4>
+            <a href="https://www.instagram.com/wafflewhizz_official?igsh=YzIzdjk4OWltMW80" target="_blank">@wafflewhizz_official</a>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-3">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-card-body">
+            <h4>Hours</h4>
+            <p>Open Daily · 10:00 AM – 10:00 PM</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-1">
+        <h3>Send an Enquiry</h3>
+        <p class="sub">Fill in your details and we'll get back to you within 24 hours.</p>
+        <form onsubmit="handleForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="Your name" required/>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 00000 00000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com"/>
+          </div>
+          <div class="form-group">
+            <label>Enquiry Type</label>
+            <select>
+              <option>Franchise Enquiry</option>
+              <option>General Query</option>
+              <option>Collaboration</option>
+              <option>Feedback</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us more about your enquiry..."></textarea>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="fl">Waffle<em>Whizz</em></div>
+        <p>Crispy Outside. Fluffy Inside. Always Perfect.<br/>Serving joy one waffle at a time since 2024.</p>
+        <div style="margin-top:20px;display:flex;gap:16px;align-items:center;">
+          <a href="https://www.instagram.com/wafflewhizz_official?igsh=YzIzdjk4OWltMW80" target="_blank" class="insta-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="https://wa.me/+919492520198" target="_blank" class="insta-link" style="color:#25D366;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#menu">Our Menu</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#franchise">Franchise</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Locations</h5>
+        <ul>
+          <li><a href="#">Visakhapatnam</a></li>
+          <li><a href="#">Vijayawada</a></li>
+          <li><a href="#">Rajahmundry</a></li>
+          <li><a href="#">Kakinada</a></li>
+          <li><a href="#">Hyderabad Region</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 WaffleWhizz. All rights reserved. Made with 🧇</p>
+      <p>Main Branch: Visakhapatnam, Andhra Pradesh</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<a class="wa-float" href="https://wa.me/+919492520198" target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-tooltip">Chat with us on WhatsApp</div>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+// THEME TOGGLE
+const html = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+let dark = false;
+toggle.addEventListener('click', () => {
+  dark = !dark;
+  html.setAttribute('data-theme', dark ? 'dark' : 'light');
+  toggle.textContent = dark ? '☀️' : '🌙';
+});
+
+// HAMBURGER
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobileNav');
+ham.addEventListener('click', () => {
+  mob.classList.toggle('open');
+});
+document.querySelectorAll('.mob-link').forEach(l => {
+  l.addEventListener('click', () => mob.classList.remove('open'));
+});
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Hero reveals on load
+setTimeout(() => {
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+}, 100);
+
+function showState(state) {
+  document.getElementById('snake-ts').style.display = state === 'ts' ? 'block' : 'none';
+  document.getElementById('snake-ap').style.display = state === 'ap' ? 'block' : 'none';
+  document.querySelectorAll('.snake-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', (state === 'ts' && i === 0) || (state === 'ap' && i === 1));
+  });
+}
+
+// GOOGLE SHEETS FORM HANDLER
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxzY3YAD_BZYbaqclkvzmxEome8NJx-9bvPNSeq03inVLPHLn62z28HILMpIeiMLnyt/exec';
+
+async function handleForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const form = e.target;
+
+  const payload = {
+    name:    form.querySelector('input[type="text"]').value.trim(),
+    phone:   form.querySelector('input[type="tel"]').value.trim(),
+    email:   form.querySelector('input[type="email"]').value.trim(),
+    type:    form.querySelector('select').value,
+    message: form.querySelector('textarea').value.trim()
+  };
+
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    btn.textContent = '✓ Received! We\'ll call you soon.';
+    btn.style.background = '#2a9d5c';
+    btn.style.opacity = '1';
+    form.reset();
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = 'var(--amber)';
+      btn.disabled = false;
+    }, 3500);
+  } catch (err) {
+    btn.textContent = '✗ Failed. Try WhatsApp instead.';
+    btn.style.background = '#c0392b';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = 'var(--amber)';
+    }, 3500);
+  }
+}
+</script>
+</body>
+</html>
