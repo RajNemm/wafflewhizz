@@ -9,43 +9,54 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --amber: #E8920A;
-  --amber-light: #FFF4DC;
-  --amber-glow: rgba(232,146,10,0.15);
-  --bg: #FAFAF8;
-  --bg2: #F3F1EC;
-  --surface: #FFFFFF;
-  --border: rgba(0,0,0,0.08);
-  --text: #0F0D09;
-  --text2: #5A5348;
-  --text3: #9A9088;
-  --nav-bg: rgba(250,250,248,0.85);
-  --shadow: 0 2px 24px rgba(0,0,0,0.07);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.1);
+  --amber: #D4780A;
+  --amber-light: #FAF0DC;
+  --amber-glow: rgba(212,120,10,0.18);
+  --bg: #F5EFE4;
+  --bg2: #EDE4D5;
+  --surface: #FBF6EE;
+  --border: rgba(120,80,20,0.12);
+  --text: #1E1208;
+  --text2: #5C4A30;
+  --text3: #9A8468;
+  --nav-bg: rgba(245,239,228,0.88);
+  --shadow: 0 2px 24px rgba(100,60,10,0.1);
+  --shadow-lg: 0 12px 48px rgba(100,60,10,0.15);
   --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
 [data-theme="dark"] {
-  --bg: #0A0906;
-  --bg2: #141210;
-  --surface: #1C1A16;
-  --border: rgba(255,255,255,0.08);
-  --text: #F5F0E8;
-  --text2: #A89E92;
-  --text3: #6B6358;
-  --nav-bg: rgba(10,9,6,0.88);
-  --amber-light: rgba(232,146,10,0.12);
-  --shadow: 0 2px 24px rgba(0,0,0,0.4);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
+  --bg: #120D07;
+  --bg2: #1C1510;
+  --surface: #241C13;
+  --border: rgba(255,200,100,0.09);
+  --text: #F5ECD8;
+  --text2: #B09878;
+  --text3: #705840;
+  --nav-bg: rgba(18,13,7,0.92);
+  --amber-light: rgba(212,120,10,0.14);
+  --shadow: 0 2px 24px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.6);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; font-size:16px; }
 body {
   font-family:'Outfit',sans-serif;
-  background:var(--bg);
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(212,150,40,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(180,100,20,0.1) 0%, transparent 55%);
   color:var(--text);
   transition:background var(--transition), color var(--transition);
   overflow-x:hidden;
 }
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:1;
+}
+body > * { position:relative; z-index:1; }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width:6px; }
@@ -149,12 +160,12 @@ nav {
   user-select:none;
   border-radius:20px;
   object-fit:cover;
-  opacity:0.07;
-  filter:saturate(0.6);
+  opacity:0.18;
+  filter:saturate(0.7);
   transition:opacity 0.3s;
   z-index:0;
 }
-[data-theme="dark"] .waffle-bg-img { opacity:0.05; filter:saturate(0.4) brightness(0.8); }
+[data-theme="dark"] .waffle-bg-img { opacity:0.1; filter:saturate(0.5) brightness(0.8); }
 
 /* hero bg images */
 .hero-bg-img-1 {
@@ -218,6 +229,9 @@ nav {
   display:flex; align-items:center;
   padding:120px 6% 80px;
   position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 70% 40%, rgba(212,140,30,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(180,100,20,0.08) 0%, transparent 55%);
 }
 .hero-bg-text {
   position:absolute;
@@ -241,8 +255,8 @@ nav {
 }
 .hero-pill {
   display:inline-flex; align-items:center; gap:8px;
-  background:var(--amber-light);
-  border:1px solid rgba(232,146,10,0.25);
+  background:rgba(212,120,10,0.12);
+  border:1px solid rgba(212,120,10,0.3);
   color:var(--amber);
   font-size:12px; font-weight:600;
   padding:5px 14px; border-radius:100px;
@@ -295,8 +309,8 @@ nav {
   width:260px; height:260px;
   border-radius:32px;
   overflow:hidden;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow-lg), 0 0 0 8px var(--amber-glow);
+  border:2px solid rgba(212,120,10,0.25);
+  box-shadow:var(--shadow-lg), 0 0 0 10px rgba(212,120,10,0.08), 0 0 0 20px rgba(212,120,10,0.04);
   animation:float 5s ease-in-out infinite alternate;
   background:var(--surface);
 }
@@ -311,7 +325,7 @@ nav {
   border-radius:14px;
   padding:14px 20px;
   text-align:center;
-  box-shadow:var(--shadow);
+  box-shadow:0 2px 12px rgba(120,70,10,0.08);
   flex:1;
   transition:background var(--transition);
 }
@@ -347,7 +361,12 @@ section { padding:100px 6%; }
 .section-head { margin-bottom:56px; }
 
 /* ── ABOUT ── */
-.about { background:var(--bg2); }
+.about {
+  background-color:var(--bg2);
+  background-image:
+    radial-gradient(ellipse 60% 50% at 90% 20%, rgba(200,130,30,0.09) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(160,100,20,0.06)'/%3E%3Ccircle cx='10' cy='10' r='0.8' fill='rgba(160,100,20,0.04)'/%3E%3Ccircle cx='50' cy='50' r='0.8' fill='rgba(160,100,20,0.04)'/%3E%3C/svg%3E");
+}
 .about-grid {
   display:grid; grid-template-columns:1fr 1fr;
   gap:80px; align-items:center;
@@ -394,6 +413,7 @@ section { padding:100px 6%; }
   padding:28px 24px;
   transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   position:relative; overflow:hidden;
+  box-shadow:0 2px 12px rgba(120,70,10,0.06);
 }
 .menu-card::before {
   content:'';
@@ -436,7 +456,10 @@ section { padding:100px 6%; }
 }
 
 /* ── GALLERY ── */
-.gallery { background:var(--bg2); }
+.gallery {
+  background-color:var(--bg2);
+  background-image:radial-gradient(ellipse 80% 60% at 50% 50%, rgba(212,140,30,0.07) 0%, transparent 70%);
+}
 .gallery-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -620,7 +643,10 @@ section { padding:100px 6%; }
   .franchise-packages { grid-template-columns:1fr; }
   .franchise-intro { padding:32px 28px; }
 }
-.contact { background:var(--bg2); }
+.contact {
+  background-color:var(--bg2);
+  background-image:radial-gradient(ellipse 70% 60% at 20% 80%, rgba(180,100,20,0.09) 0%, transparent 60%);
+}
 .contact-grid {
   display:grid; grid-template-columns:1fr 1fr;
   gap:60px; align-items:start;
@@ -766,6 +792,56 @@ footer {
 }
 .wa-float:hover .wa-tooltip { opacity:1; }
 
+/* ── ENQUIRY MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,0.55);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.modal-overlay.open {
+  opacity:1; pointer-events:all;
+}
+.modal-box {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:40px 36px 36px;
+  width:100%; max-width:500px;
+  position:relative;
+  transform:translateY(24px) scale(0.97);
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+  opacity:0;
+  max-height:90vh; overflow-y:auto;
+}
+.modal-overlay.open .modal-box {
+  transform:translateY(0) scale(1);
+  opacity:1;
+}
+.modal-close {
+  position:absolute; top:16px; right:16px;
+  width:32px; height:32px; border-radius:50%;
+  background:var(--bg2); border:1px solid var(--border);
+  cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text2); transition:background 0.2s, color 0.2s;
+  line-height:1;
+}
+.modal-close:hover { background:var(--amber); color:#fff; border-color:var(--amber); }
+.modal-box h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px; font-weight:700;
+  margin-bottom:6px; padding-right:32px;
+}
+.modal-box .sub {
+  font-size:14px; color:var(--text2);
+  margin-bottom:28px; font-weight:300; line-height:1.6;
+}
+.modal-box .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.modal-box .form-group { margin-bottom:14px; }
+
 /* ── SCROLL ANIMATIONS ── */
 .reveal {
   opacity:0;
@@ -822,7 +898,7 @@ footer {
   </ul>
   <div class="nav-actions">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="#contact"><button class="nav-cta">Get in Touch</button></a>
+    <a href="#contact"><button class="nav-cta" onclick="openModal(event)">Get in Touch</button></a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -866,10 +942,12 @@ footer {
         <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz" onerror="this.outerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;\'>🧇</div>'"/>
       </div>
       <div class="hero-stats">
-        <div class="hstat">
+        <a href="#active-locations" style="text-decoration:none;flex:1;" title="View all active locations">
+        <div class="hstat" style="cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s;" onmouseover="this.style.borderColor='var(--amber)';this.style.boxShadow='0 0 0 3px rgba(232,146,10,0.15)'" onmouseout="this.style.borderColor='';this.style.boxShadow=''">
           <div class="num">50+</div>
-          <div class="lbl">Locations</div>
+          <div class="lbl">Locations ↗</div>
         </div>
+        </a>
         <div class="hstat">
           <div class="num">2024</div>
           <div class="lbl">Founded</div>
@@ -904,7 +982,7 @@ footer {
           WaffleWhizz started in 2024 in the heart of Visakhapatnam with one 
           simple obsession — making the crispiest, fluffiest, most indulgent 
           waffles in the region. What began as a single outlet has now blossomed 
-          into a beloved brand with 10+ locations across Andhra Pradesh & Telangana.
+          into a beloved brand with 50+ locations across Andhra Pradesh & Telangana.
         </p>
         <p class="reveal reveal-delay-2">
           Every waffle we make is a promise — golden on the outside, impossibly 
@@ -914,7 +992,6 @@ footer {
         <div class="about-pills reveal reveal-delay-3">
           <span class="pill">🧇 Fresh Batter Daily</span>
           <span class="pill">🍓 Premium Toppings</span>
-          <span class="pill">☕ Artisan Beverages</span>
           <span class="pill">🏪 Franchise Ready</span>
         </div>
       </div>
@@ -1140,15 +1217,16 @@ footer {
     </div>
 
     <!-- LOCATIONS -->
-    <div class="section-head reveal" style="margin-bottom:28px;">
+    <div id="active-locations" class="section-head reveal" style="margin-bottom:28px;">
       <div class="section-label">Active Locations</div>
-      <h3 class="section-title" style="font-size:clamp(24px,3vw,36px);">50+ Outlets Across <em style="font-style:italic;color:var(--amber)">AP & Telangana</em></h3>
+      <h3 class="section-title" style="font-size:clamp(24px,3vw,36px);">57+ Outlets Across <em style="font-style:italic;color:var(--amber)">AP, Telangana & Karnataka</em></h3>
     </div>
 
     <div class="reveal">
       <div class="snake-tabs">
         <button class="snake-tab active" onclick="showState('ts')">🟡 Telangana — 21 Outlets</button>
         <button class="snake-tab" onclick="showState('ap')">🟠 Andhra Pradesh — 26 Outlets</button>
+        <button class="snake-tab" onclick="showState('ka')">🔴 Karnataka — 7 Outlets</button>
       </div>
 
       <div class="snake-wrap" id="snake-ts">
@@ -1299,6 +1377,33 @@ footer {
           <g transform="translate(340,665)"><circle r="8" fill="#CC6600"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#CC6600"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#CC6600">Koyyalagudem</text></g>
         </svg>
       </div>
+
+      <!-- KARNATAKA -->
+      <div class="snake-wrap" id="snake-ka" style="display:none;">
+        <svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <!-- Row 1 L→R -->
+          <path d="M60,80 Q220,58 380,78 Q540,98 700,78 Q800,66 840,96" fill="none" stroke="#E8D0D0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M60,80 Q220,58 380,78 Q540,98 700,78 Q800,66 840,96" fill="none" stroke="#C0392B" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 1→2 curve -->
+          <path d="M840,96 Q882,148 840,200" fill="none" stroke="#E8D0D0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,96 Q882,148 840,200" fill="none" stroke="#C0392B" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+          <!-- Row 2 R→L partial -->
+          <path d="M840,200 Q680,180 520,200 Q380,216 300,200" fill="none" stroke="#E8D0D0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M840,200 Q680,180 520,200 Q380,216 300,200" fill="none" stroke="#C0392B" stroke-width="4" stroke-linecap="round" stroke-dasharray="14,10"/>
+
+          <!-- PIN macro: red color #C0392B -->
+          <!-- Row 1: Hospet, Avalhalli, Ballari, ShaktiNagar, Raichur -->
+          <g transform="translate(60,80)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Hospet</text></g>
+          <g transform="translate(240,66)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Avalhalli</text></g>
+          <g transform="translate(420,80)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Ballari</text></g>
+          <g transform="translate(610,88)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">ShaktiNagar</text></g>
+          <g transform="translate(840,200)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Raichur</text></g>
+
+          <!-- Row 2: Yelahanka, Hoskote -->
+          <g transform="translate(660,188)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Yelahanka</text></g>
+          <g transform="translate(490,202)"><circle r="8" fill="#C0392B"/><path d="M0,-22 C-9,-22 -14,-15 -14,-9 C-14,2 0,16 0,16 C0,16 14,2 14,-9 C14,-15 9,-22 0,-22Z" fill="#C0392B"/><circle cy="-9" r="4" fill="#fff"/><text x="0" y="-28" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="#C0392B">Hoskote</text></g>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -1434,6 +1539,45 @@ footer {
   </div>
 </footer>
 
+<!-- ENQUIRY MODAL -->
+<div class="modal-overlay" id="enquiryModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <h3>Send an Enquiry</h3>
+    <p class="sub">Fill in your details and we'll get back to you within 24 hours.</p>
+    <form onsubmit="handleModalForm(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name" required/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 00000 00000"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-group">
+        <label>Enquiry Type</label>
+        <select>
+          <option>Franchise Enquiry</option>
+          <option>General Query</option>
+          <option>Collaboration</option>
+          <option>Feedback</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us more about your enquiry..." style="min-height:90px;"></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="modalSubmitBtn">Send Message →</button>
+    </form>
+  </div>
+</div>
+
 <!-- FLOATING WHATSAPP BUTTON -->
 <a class="wa-float" href="https://wa.me/+919492520198" target="_blank" aria-label="Chat on WhatsApp">
   <div class="wa-tooltip">Chat with us on WhatsApp</div>
@@ -1482,9 +1626,72 @@ setTimeout(() => {
 function showState(state) {
   document.getElementById('snake-ts').style.display = state === 'ts' ? 'block' : 'none';
   document.getElementById('snake-ap').style.display = state === 'ap' ? 'block' : 'none';
+  document.getElementById('snake-ka').style.display = state === 'ka' ? 'block' : 'none';
   document.querySelectorAll('.snake-tab').forEach((btn, i) => {
-    btn.classList.toggle('active', (state === 'ts' && i === 0) || (state === 'ap' && i === 1));
+    btn.classList.toggle('active',
+      (state === 'ts' && i === 0) ||
+      (state === 'ap' && i === 1) ||
+      (state === 'ka' && i === 2)
+    );
   });
+}
+
+// MODAL
+const modal = document.getElementById('enquiryModal');
+function openModal(e) {
+  if(e) e.preventDefault();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if(e.target === modal) closeModal();
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+async function handleModalForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('modalSubmitBtn');
+  const form = e.target;
+  const payload = {
+    name:    form.querySelector('input[type="text"]').value.trim(),
+    phone:   form.querySelector('input[type="tel"]').value.trim(),
+    email:   form.querySelector('input[type="email"]').value.trim(),
+    type:    form.querySelector('select').value,
+    message: form.querySelector('textarea').value.trim()
+  };
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+  try {
+    await fetch(SHEET_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    btn.textContent = '✓ Received! We\'ll call you soon.';
+    btn.style.background = '#2a9d5c';
+    btn.style.opacity = '1';
+    form.reset();
+    setTimeout(() => {
+      closeModal();
+      btn.textContent = 'Send Message →';
+      btn.style.background = 'var(--amber)';
+      btn.disabled = false;
+    }, 2200);
+  } catch(err) {
+    btn.textContent = '✗ Failed. Try WhatsApp instead.';
+    btn.style.background = '#c0392b';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = 'var(--amber)';
+    }, 3000);
+  }
 }
 
 // GOOGLE SHEETS FORM HANDLER
