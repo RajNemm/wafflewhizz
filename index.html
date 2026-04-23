@@ -314,7 +314,7 @@ nav {
   animation:float 5s ease-in-out infinite alternate;
   background:var(--surface);
 }
-.logo-frame img { width:100%; height:100%; object-fit:cover; }
+.logo-frame img, .logo-frame video { width:100%; height:100%; object-fit:cover; display:block; }
 @keyframes float { from{transform:translateY(0);} to{transform:translateY(-14px);} }
 .hero-stats {
   display:flex; gap:20px;
@@ -939,7 +939,13 @@ footer {
     </div>
     <div class="hero-visual reveal reveal-delay-2">
       <div class="logo-frame">
-        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz" onerror="this.outerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;\'>🧇</div>'"/>
+        <video
+          autoplay loop muted playsinline
+          poster="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg"
+          onerror="this.outerHTML='<img src=\'https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg\' style=\'width:100%;height:100%;object-fit:cover;\' alt=\'WaffleWhizz\'/>'">
+          <source src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleWhizz-Animated.MP4" type="video/mp4"/>
+          <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz" style="width:100%;height:100%;object-fit:cover;"/>
+        </video>
       </div>
       <div class="hero-stats">
         <a href="#active-locations" style="text-decoration:none;flex:1;" title="View all active locations">
