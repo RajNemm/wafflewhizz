@@ -455,52 +455,93 @@ section { padding:100px 6%; }
   color:#E8920A;
 }
 
-/* ── GALLERY ── */
+/* ── GALLERY SCROLLER ── */
 .gallery {
   background-color:var(--bg2);
   background-image:radial-gradient(ellipse 80% 60% at 50% 50%, rgba(212,140,30,0.07) 0%, transparent 70%);
 }
-.gallery-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:auto;
-  gap:14px;
-}
-.gallery-item {
-  border-radius:16px; overflow:hidden;
-  aspect-ratio:1;
-  background:var(--surface);
-  border:1px solid var(--border);
+.gallery-scroller-wrap {
   position:relative;
+  overflow:hidden;
+  margin:0 -6%;
+  padding:10px 0 20px;
 }
-.gallery-item:first-child {
-  grid-column:span 2; grid-row:span 2;
-  aspect-ratio:auto;
+.gallery-scroller-wrap::before,
+.gallery-scroller-wrap::after {
+  content:'';
+  position:absolute; top:0; bottom:0; width:120px; z-index:2;
+  pointer-events:none;
 }
-.gallery-item img {
+.gallery-scroller-wrap::before {
+  left:0;
+  background:linear-gradient(to right, var(--bg2) 0%, transparent 100%);
+}
+.gallery-scroller-wrap::after {
+  right:0;
+  background:linear-gradient(to left, var(--bg2) 0%, transparent 100%);
+}
+.gallery-track {
+  display:flex; gap:18px;
+  width:max-content;
+  animation:galleryScroll 22s linear infinite;
+}
+@keyframes galleryScroll {
+  0%   { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+.gallery-slide {
+  width:280px; height:320px;
+  border-radius:20px;
+  overflow:hidden;
+  flex-shrink:0;
+  position:relative;
+  border:1px solid var(--border);
+  box-shadow:0 4px 20px rgba(120,70,10,0.1);
+  background:var(--surface);
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.gallery-slide:hover {
+  transform:scale(1.03) translateY(-4px);
+  box-shadow:0 12px 36px rgba(120,70,10,0.18);
+}
+.gallery-slide img {
   width:100%; height:100%;
   object-fit:cover;
-  transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  transition:transform 0.5s;
 }
-.gallery-item:hover img { transform:scale(1.05); }
-.gallery-overlay {
+.gallery-slide:hover img { transform:scale(1.06); }
+.gallery-slide-overlay {
   position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
+  background:linear-gradient(to top, rgba(20,10,0,0.55) 0%, transparent 55%);
   opacity:0; transition:opacity 0.3s;
-  display:flex; align-items:flex-end;
-  padding:20px;
+  display:flex; align-items:flex-end; padding:18px;
 }
-.gallery-item:hover .gallery-overlay { opacity:1; }
-.gallery-overlay span { color:#fff; font-size:13px; font-weight:500; }
-.gallery-placeholder {
-  width:100%; height:100%;
-  background:var(--bg2);
+.gallery-slide:hover .gallery-slide-overlay { opacity:1; }
+.gallery-slide-overlay span {
+  color:#fff; font-size:13px; font-weight:500;
+  letter-spacing:0.3px;
+}
+.gallery-logo-slide {
+  background:var(--text);
   display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:8px;
-  color:var(--text3);
 }
-.gallery-placeholder span { font-size:28px; }
-.gallery-placeholder p { font-size:12px; font-weight:500; }
+.gallery-logo-slide img { object-fit:contain; padding:20px; }
+
+/* scroller controls */
+.gallery-controls {
+  display:flex; align-items:center; justify-content:center;
+  gap:12px; margin-top:28px;
+}
+.gctrl {
+  width:38px; height:38px; border-radius:50%;
+  background:var(--surface); border:1px solid var(--border);
+  cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.2s, border-color 0.2s, transform 0.15s;
+  color:var(--text);
+}
+.gctrl:hover { background:var(--amber); color:#fff; border-color:var(--amber); transform:scale(1.1); }
+.gctrl.pause-btn { width:44px; height:44px; font-size:18px; }
 
 /* ── FRANCHISE ── */
 .franchise-hero {
@@ -862,8 +903,6 @@ footer {
   .franchise-hero { padding:36px; }
   .franchise-perks { grid-template-columns:1fr 1fr; }
   .footer-top { grid-template-columns:1fr 1fr; }
-  .gallery-grid { grid-template-columns:1fr 1fr; }
-  .gallery-item:first-child { grid-column:span 2; }
   .nav-links { display:none; }
   .hamburger { display:flex; }
   .form-row { grid-template-columns:1fr; }
@@ -873,8 +912,6 @@ footer {
   .hero { padding:100px 5% 60px; }
   nav { padding:0 5%; }
   .footer-top { grid-template-columns:1fr; gap:32px; }
-  .gallery-grid { grid-template-columns:1fr; }
-  .gallery-item:first-child { grid-column:span 1; }
   .hero-stats { flex-direction:column; gap:10px; }
   .logo-frame { width:200px; height:200px; }
   .franchise-perks { grid-template-columns:1fr; }
@@ -1094,32 +1131,56 @@ footer {
 
 <!-- GALLERY -->
 <section class="gallery" id="gallery">
+  <img class="waffle-bg-img" style="width:clamp(150px,16vw,220px);height:clamp(150px,16vw,220px);top:-20px;left:-30px;transform:rotate(8deg);opacity:0.1;" src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/WaffleImg-7.jpg" alt="" aria-hidden="true"/>
   <div class="container">
     <div class="section-head reveal">
       <div class="section-label">Moments & Bites</div>
       <h2 class="section-title">A Glimpse of <em style="font-style:italic;color:var(--amber)">WaffleWhizz</em></h2>
       <p class="section-sub">Real stores, real smiles, real waffles. Follow us on Instagram for the latest.</p>
     </div>
-    <div class="gallery-grid">
-      <div class="gallery-item reveal">
-        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/wafflewhizz-Logo.jpeg" alt="WaffleWhizz"
-          onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'><span>🧇</span><p>WaffleWhizz</p></div>'"/>
-        <div class="gallery-overlay"><span>WaffleWhizz — Visakhapatnam</span></div>
+  </div>
+
+  <div class="gallery-scroller-wrap reveal">
+    <div class="gallery-track" id="galleryTrack">
+      <!-- Original set -->
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP1.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Fresh off the iron 🧇</span></div>
       </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP2.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Golden & crispy ✨</span></div>
       </div>
-      <div class="gallery-item reveal reveal-delay-2">
-        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP3.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Made with love 🍫</span></div>
       </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP4.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Every bite tells a story 🌟</span></div>
       </div>
-      <div class="gallery-item reveal reveal-delay-2">
-        <div class="gallery-placeholder"><span>📸</span><p>Add your photo</p></div>
+      <!-- Duplicate for seamless infinite loop -->
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP1.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Fresh off the iron 🧇</span></div>
+      </div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP2.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Golden & crispy ✨</span></div>
+      </div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP3.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Made with love 🍫</span></div>
+      </div>
+      <div class="gallery-slide">
+        <img src="https://raw.githubusercontent.com/RajNemm/wafflewhizz/main/Waffle_GP4.jpeg" alt="WaffleWhizz" onerror="this.style.display='none'"/>
+        <div class="gallery-slide-overlay"><span>Every bite tells a story 🌟</span></div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:36px;" class="reveal">
+  </div>
+
+  <div class="container">
+    <div style="text-align:center;margin-top:28px;" class="reveal">
       <a href="https://www.instagram.com/wafflewhizz_official?igsh=YzIzdjk4OWltMW80" target="_blank" class="insta-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         Follow @wafflewhizz_official for daily deliciousness →
