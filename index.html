@@ -405,26 +405,45 @@ section { padding:100px 6%; }
 .menu-grid {
   display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:20px;
+  perspective:1200px;
 }
 .menu-card {
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:20px;
   padding:28px 24px;
-  transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   position:relative; overflow:hidden;
   box-shadow:0 2px 12px rgba(120,70,10,0.06);
+  transform-style:preserve-3d;
+  transform:perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1);
+  transition:box-shadow 0.15s ease, border-color 0.15s ease;
+  will-change:transform;
+  cursor:default;
 }
 .menu-card::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--amber);
+  background:linear-gradient(90deg, var(--amber), #F5C040);
   transform:scaleX(0);
   transform-origin:left;
-  transition:transform 0.3s;
+  transition:transform 0.35s ease;
+  border-radius:20px 20px 0 0;
 }
-.menu-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:rgba(232,146,10,0.3); }
-.menu-card:hover::before { transform:scaleX(1); }
+.menu-card.tilt-active::before { transform:scaleX(1); }
+.menu-card.tilt-active {
+  box-shadow:0 20px 60px rgba(120,70,10,0.2), 0 0 0 1px rgba(212,120,10,0.2);
+  border-color:rgba(212,120,10,0.3);
+}
+/* Shine overlay */
+.menu-card .card-shine {
+  position:absolute; inset:0;
+  border-radius:20px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.2s;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18) 0%, transparent 65%);
+}
+.menu-card.tilt-active .card-shine { opacity:1; }
 .menu-icon { font-size:36px; margin-bottom:16px; }
 .menu-card h3 {
   font-family:'Cormorant Garamond',serif;
@@ -464,12 +483,12 @@ section { padding:100px 6%; }
   position:relative;
   overflow:hidden;
   margin:0 -6%;
-  padding:10px 0 20px;
+  padding:60px 0 70px;
 }
 .gallery-scroller-wrap::before,
 .gallery-scroller-wrap::after {
   content:'';
-  position:absolute; top:0; bottom:0; width:120px; z-index:2;
+  position:absolute; top:0; bottom:0; width:180px; z-index:2;
   pointer-events:none;
 }
 .gallery-scroller-wrap::before {
@@ -481,16 +500,15 @@ section { padding:100px 6%; }
   background:linear-gradient(to left, var(--bg2) 0%, transparent 100%);
 }
 .gallery-track {
-  display:flex; gap:18px;
+  display:flex;
+  align-items:center;
+  gap:24px;
   width:max-content;
-  animation:galleryScroll 22s linear infinite;
-}
-@keyframes galleryScroll {
-  0%   { transform:translateX(0); }
-  100% { transform:translateX(-50%); }
+  will-change:transform;
 }
 .gallery-slide {
-  width:280px; height:320px;
+  width:280px;
+  height:320px;
   border-radius:20px;
   overflow:hidden;
   flex-shrink:0;
@@ -498,18 +516,15 @@ section { padding:100px 6%; }
   border:1px solid var(--border);
   box-shadow:0 4px 20px rgba(120,70,10,0.1);
   background:var(--surface);
-  transition:transform 0.3s, box-shadow 0.3s;
-}
-.gallery-slide:hover {
-  transform:scale(1.03) translateY(-4px);
-  box-shadow:0 12px 36px rgba(120,70,10,0.18);
+  transition:box-shadow 0.3s ease, border-color 0.3s ease;
+  transform-origin:center center;
+  will-change:transform, opacity;
 }
 .gallery-slide img {
   width:100%; height:100%;
   object-fit:cover;
-  transition:transform 0.5s;
+  display:block;
 }
-.gallery-slide:hover img { transform:scale(1.06); }
 .gallery-slide-overlay {
   position:absolute; inset:0;
   background:linear-gradient(to top, rgba(20,10,0,0.55) 0%, transparent 55%);
@@ -518,30 +533,8 @@ section { padding:100px 6%; }
 }
 .gallery-slide:hover .gallery-slide-overlay { opacity:1; }
 .gallery-slide-overlay span {
-  color:#fff; font-size:13px; font-weight:500;
-  letter-spacing:0.3px;
+  color:#fff; font-size:13px; font-weight:500; letter-spacing:0.3px;
 }
-.gallery-logo-slide {
-  background:var(--text);
-  display:flex; align-items:center; justify-content:center;
-}
-.gallery-logo-slide img { object-fit:contain; padding:20px; }
-
-/* scroller controls */
-.gallery-controls {
-  display:flex; align-items:center; justify-content:center;
-  gap:12px; margin-top:28px;
-}
-.gctrl {
-  width:38px; height:38px; border-radius:50%;
-  background:var(--surface); border:1px solid var(--border);
-  cursor:pointer; font-size:16px;
-  display:flex; align-items:center; justify-content:center;
-  transition:background 0.2s, border-color 0.2s, transform 0.15s;
-  color:var(--text);
-}
-.gctrl:hover { background:var(--amber); color:#fff; border-color:var(--amber); transform:scale(1.1); }
-.gctrl.pause-btn { width:44px; height:44px; font-size:18px; }
 
 /* ── FRANCHISE ── */
 .franchise-hero {
@@ -633,24 +626,43 @@ section { padding:100px 6%; }
 .franchise-packages {
   display:grid; grid-template-columns:repeat(2,1fr);
   gap:20px; margin-bottom:56px;
+  perspective:1200px;
 }
 .fpack {
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:20px;
   padding:32px 28px;
-  transition:border-color 0.25s, transform 0.25s, box-shadow 0.25s;
   position:relative; overflow:hidden;
+  box-shadow:0 2px 12px rgba(120,70,10,0.06);
+  transform-style:preserve-3d;
+  transform:perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1);
+  transition:box-shadow 0.15s ease, border-color 0.15s ease;
+  will-change:transform;
+  cursor:default;
 }
 .fpack::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--amber);
+  background:linear-gradient(90deg, var(--amber), #F5C040);
   transform:scaleX(0); transform-origin:left;
-  transition:transform 0.3s;
+  transition:transform 0.35s ease;
+  border-radius:20px 20px 0 0;
 }
-.fpack:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); border-color:rgba(232,146,10,0.3); }
-.fpack:hover::before { transform:scaleX(1); }
+.fpack.tilt-active::before { transform:scaleX(1); }
+.fpack.tilt-active {
+  box-shadow:0 20px 60px rgba(120,70,10,0.2), 0 0 0 1px rgba(212,120,10,0.2);
+  border-color:rgba(212,120,10,0.3);
+}
+.fpack .card-shine {
+  position:absolute; inset:0;
+  border-radius:20px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.2s;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18) 0%, transparent 65%);
+}
+.fpack.tilt-active .card-shine { opacity:1; }
 .fpack-header {
   display:flex; align-items:center; gap:14px;
   margin-bottom:20px;
@@ -1056,6 +1068,7 @@ footer {
 
       <!-- 1. Fantasy -->
       <div class="menu-card reveal">
+        <div class="card-shine"></div>
         <div class="menu-icon">✨</div>
         <h3>Fantasy</h3>
         <p>A dreamy waffle creation layered with rich chocolate — choose your indulgence from Dark, Milk, or White chocolate for a truly magical bite.</p>
@@ -1069,6 +1082,7 @@ footer {
 
       <!-- 2. Chocolate -->
       <div class="menu-card reveal reveal-delay-1">
+        <div class="card-shine"></div>
         <div class="menu-icon">🍫</div>
         <h3>Chocolate</h3>
         <p>Pure chocolate bliss on a crispy waffle base — the Caramel version adds golden sweetness while Triple goes all-in with three layers of chocolate heaven.</p>
@@ -1081,6 +1095,7 @@ footer {
 
       <!-- 3. Crunchy -->
       <div class="menu-card reveal reveal-delay-2">
+        <div class="card-shine"></div>
         <div class="menu-icon">🍪</div>
         <h3>Crunchy</h3>
         <p>For those who love a satisfying crunch — topped with crushed Oreo cream cookies or KitKat pieces for an irresistible texture contrast.</p>
@@ -1093,6 +1108,7 @@ footer {
 
       <!-- 4. Gems -->
       <div class="menu-card reveal reveal-delay-3">
+        <div class="card-shine"></div>
         <div class="menu-icon">💎</div>
         <h3>Gems</h3>
         <p>Colourful, fun, and utterly delicious — topped with Gems candy in Milk or Dark chocolate variety, perfect for the playful sweet tooth.</p>
@@ -1105,6 +1121,7 @@ footer {
 
       <!-- 5. Special Naughty Nutella -->
       <div class="menu-card reveal reveal-delay-1">
+        <div class="card-shine"></div>
         <div class="menu-icon">🌰</div>
         <h3>Special Naughty Nutella</h3>
         <p>Our indulgent special — a generously loaded Nutella waffle that's sinfully good. Hazelnut-chocolate spread piled high on our signature crispy base.</p>
@@ -1116,6 +1133,7 @@ footer {
 
       <!-- 6. Almond Cake -->
       <div class="menu-card reveal reveal-delay-2">
+        <div class="card-shine"></div>
         <div class="menu-icon">🎂</div>
         <h3>Almond Cake</h3>
         <p>A premium waffle experience — crafted with the richness of almond cake flavour, topped with toasted almonds and a delicate cream finish.</p>
@@ -1216,6 +1234,7 @@ footer {
 
       <!-- 1. Premium Equipment -->
       <div class="fpack reveal">
+        <div class="card-shine"></div>
         <div class="fpack-header">
           <div class="fpack-icon">⚙️</div>
           <div>
@@ -1234,6 +1253,7 @@ footer {
 
       <!-- 2. Training & Support -->
       <div class="fpack reveal reveal-delay-1">
+        <div class="card-shine"></div>
         <div class="fpack-header">
           <div class="fpack-icon">🎓</div>
           <div>
@@ -1251,6 +1271,7 @@ footer {
 
       <!-- 3. Branding Kit -->
       <div class="fpack reveal reveal-delay-2">
+        <div class="card-shine"></div>
         <div class="fpack-header">
           <div class="fpack-icon">🎨</div>
           <div>
@@ -1267,6 +1288,7 @@ footer {
 
       <!-- 4. Ingredients Starter Kit -->
       <div class="fpack reveal reveal-delay-3">
+        <div class="card-shine"></div>
         <div class="fpack-header">
           <div class="fpack-icon">🧺</div>
           <div>
@@ -1663,6 +1685,100 @@ toggle.addEventListener('click', () => {
   html.setAttribute('data-theme', dark ? 'dark' : 'light');
   toggle.textContent = dark ? '☀️' : '🌙';
 });
+
+// MENU & FRANCHISE CARD 3D TILT
+document.querySelectorAll('.menu-card, .fpack').forEach(card => {
+  const shine = card.querySelector('.card-shine');
+  const MAX_TILT = 18;
+  const SCALE = 1.04;
+
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotY =  ((x - cx) / cx) * MAX_TILT;
+    const rotX = -((y - cy) / cy) * MAX_TILT;
+    card.style.transform =
+      `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${SCALE})`;
+    card.classList.add('tilt-active');
+    if (shine) {
+      const px = (x / rect.width)  * 100;
+      const py = (y / rect.height) * 100;
+      shine.style.background =
+        `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.22) 0%, transparent 60%)`;
+    }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform =
+      'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+    card.style.transition =
+      'transform 0.55s cubic-bezier(0.23,1,0.32,1), box-shadow 0.55s ease, border-color 0.55s ease';
+    card.classList.remove('tilt-active');
+    if (shine) shine.style.background = '';
+    setTimeout(() => { card.style.transition = ''; }, 560);
+  });
+
+  card.addEventListener('mouseenter', () => {
+    card.style.transition = 'none';
+  });
+});
+
+// GALLERY PERSPECTIVE SCROLLER
+(function() {
+  const track = document.getElementById('galleryTrack');
+  if (!track) return;
+  const wrap = track.closest('.gallery-scroller-wrap');
+  const SPEED = 0.6; // px per frame
+  let offset = 0;
+  const SLIDE_W = 280;
+  const GAP = 24;
+  const STEP = SLIDE_W + GAP;
+
+  function updateSlides() {
+    const slides = track.querySelectorAll('.gallery-slide');
+    const wrapCenter = wrap.offsetWidth / 2;
+    slides.forEach(slide => {
+      const rect = slide.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      const slideCenter = rect.left - wrapRect.left + rect.width / 2;
+      const dist = Math.abs(slideCenter - wrapCenter);
+      const maxDist = wrapRect.width * 0.55;
+      const ratio = Math.max(0, 1 - dist / maxDist);
+      const scale = 0.65 + 0.35 * ratio;         // 0.65 → 1.0
+      const opacity = 0.4 + 0.6 * ratio;          // 0.4  → 1.0
+      slide.style.transform = `scale(${scale})`;
+      slide.style.opacity = opacity;
+      if (ratio > 0.85) {
+        slide.style.boxShadow = '0 16px 48px rgba(120,70,10,0.28)';
+        slide.style.borderColor = 'rgba(212,120,10,0.45)';
+      } else {
+        slide.style.boxShadow = '0 4px 20px rgba(120,70,10,0.08)';
+        slide.style.borderColor = '';
+      }
+    });
+  }
+
+  function getTotalW() {
+    const slides = track.querySelectorAll('.gallery-slide');
+    return slides.length / 2 * STEP; // half = one set
+  }
+
+  function tick() {
+    offset += SPEED;
+    const half = getTotalW();
+    if (offset >= half) offset -= half;
+    track.style.transform = `translateX(${-offset}px)`;
+    updateSlides();
+    requestAnimationFrame(tick);
+  }
+
+  // wait for layout
+  requestAnimationFrame(() => requestAnimationFrame(tick));
+})();
+
 
 // HAMBURGER
 const ham = document.getElementById('hamburger');
